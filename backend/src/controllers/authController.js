@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const {
@@ -177,6 +178,61 @@ exports.getMe = async (req, res) => {
     res.status(200).json({
       success: true,
       user,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Refresh Controller
+exports.refresh = async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "No refresh token provided",
+      });
+    }
+
+    let decoded;
+
+    try {
+      decoded = jwt.verify(
+        token,
+        process.env.JWT_REFRESH_SECRET
+      );
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired refresh token",
+      });
+    }
+
+    const user = await User.findById(decoded.id);
+
+    if (
+      !user ||
+      user.refreshToken !== token
+    ) {
+      return res.status(401).json({
+        success: false,
+        message:
+          "Refresh token mismatch, please login again",
+      });
+    }
+
+    const accessToken =
+      generateAccessToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      accessToken,
     });
 
   } catch (error) {
