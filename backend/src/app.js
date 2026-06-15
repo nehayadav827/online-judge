@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const helmet = require("helmet");
-const authRoutes = require("./routes/authRoutes");
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -26,4 +26,4 @@ app.get("/", (req, res) => {
   });
 });
 
-module.exports = app;
+export default app;

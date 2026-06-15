@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-const {
+import {
   generateAccessToken,
   generateRefreshToken,
-} = require("../utils/generateToken");
+} from "../utils/generateToken.js";
 
 const cookieOptions = {
   httpOnly: true,
@@ -15,7 +15,7 @@ const cookieOptions = {
 
 //register controller
 
-exports.register = async (req, res) => {
+export const register  = async (req, res) => {
   try {
     const {
       firstName,
@@ -80,7 +80,7 @@ exports.register = async (req, res) => {
 
 
 //login controller
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -141,7 +141,7 @@ exports.login = async (req, res) => {
 };
 
   //Logout Controller
-  exports.logout = async (req, res) => {
+  export const logout = async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
 
@@ -170,7 +170,7 @@ exports.login = async (req, res) => {
 };
 
 //getMe Controller
-exports.getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
    const user = await User.findById(req.user.id)
   .select("-password -refreshToken");
@@ -189,7 +189,7 @@ exports.getMe = async (req, res) => {
 };
 
 // Refresh Controller
-exports.refresh = async (req, res) => {
+export const refresh = async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
 
