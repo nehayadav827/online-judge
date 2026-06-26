@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import authRoutes from "./routes/authRoutes.js";
+import compilerRoutes from "../compiler/compilerRoutes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
+app.use("/api/compiler", compilerRoutes);
 
 app.get("/", (req, res) => {
   res.json({

@@ -1,0 +1,5 @@
+{
+  "watch": ["src", "server.js", "compiler/compilerController.js", "compiler/executeCode.js", "compiler/languageConfig.js"],
+  "ignore": ["compiler/codes/*", "compiler/inputs/*", "compiler/outputs/*"],
+  "ext": "js,json"
+}

@@ -146,3 +146,8 @@ vite.config.ts.timestamp-*
 backend/.env
 frontend/.env
 node_modules
+
+# Compiler temporary files
+backend/compiler/codes/*
+backend/compiler/inputs/*
+backend/compiler/outputs/*
