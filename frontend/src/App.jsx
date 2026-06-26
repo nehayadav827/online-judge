@@ -1,20 +1,14 @@
-import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { useEffect } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-
+import Compiler from "./pages/Compiler";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-import { useAuthStore }
-from "./store/authStore";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
-  const initAuth =
-    useAuthStore(
-      (state) => state.initAuth
-    );
+  const initAuth = useAuthStore((state) => state.initAuth);
 
   useEffect(() => {
     initAuth();
@@ -22,21 +16,21 @@ function App() {
 
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<Login />}
-      />
-
-      <Route
-        path="/register"
-        element={<Register />}
-      />
-
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route
         path="/"
         element={
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/compiler"
+        element={
+          <ProtectedRoute>
+            <Compiler />
           </ProtectedRoute>
         }
       />
