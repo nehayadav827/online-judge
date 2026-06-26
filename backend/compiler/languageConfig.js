@@ -38,7 +38,7 @@ const languageConfig = {
   },
 
   javascript: {
-  extension: "js",
+  extension: "cjs",
   compile: null,
   run: (jobId, outputPath, inputFilePath, codeFilePath) =>
     `node "${codeFilePath}" < "${inputFilePath}"`,
