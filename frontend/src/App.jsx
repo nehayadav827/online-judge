@@ -11,6 +11,8 @@ import Leaderboard from "./pages/Leaderboard";
 import Navbar from "./components/common/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
+import Contests from "./pages/Contests";
+import ContestDetail from "./pages/ContestDetail";
 
 function App() {
   const initAuth = useAuthStore((state) => state.initAuth);
@@ -36,6 +38,10 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/compiler" element={<ProtectedRoute><Compiler /></ProtectedRoute>} />
+
+          <Route path="/contests" element={<Contests />} />
+<Route path="/contests/:slug" element={<ContestDetail />} />
+
         </Routes>
       </div>
     </>

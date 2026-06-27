@@ -1657,3 +1657,443 @@ select.input {
   .podium { gap: 8px; }
   .podium-bar { width: 60px; }
 }
+
+
+/* ── Contest status badge ── */
+.contest-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Contests list page ── */
+.contests-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.contest-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.contest-tab-btn {
+  padding: 8px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+
+.contest-tab-btn:hover { color: var(--text-primary); }
+
+.contest-tab-btn.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.contest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contest-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.15s;
+}
+
+.contest-card:hover {
+  border-color: var(--blue);
+  background: var(--bg-hover);
+}
+
+.contest-card-left { flex: 1; }
+
+.contest-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.contest-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.contest-card-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.contest-card-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.contest-card-right {
+  color: var(--text-muted);
+  font-size: 20px;
+  margin-left: 16px;
+}
+
+.contest-arrow { transition: transform 0.15s; }
+.contest-card:hover .contest-arrow { transform: translateX(4px); }
+
+/* ── Contest Detail page ── */
+.contest-detail-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--nav-h));
+  overflow: hidden;
+}
+
+.contest-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+  gap: 24px;
+}
+
+.contest-detail-header-left { flex: 1; }
+
+.back-link {
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: color 0.15s;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.back-link:hover { color: var(--blue); }
+
+.contest-detail-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.contest-detail-title-row h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.contest-detail-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.contest-detail-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.contest-detail-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Timer */
+.contest-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.timer-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.timer-value {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+
+/* Register button */
+.register-btn {
+  padding: 8px 24px;
+  background: var(--blue);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.register-btn:hover:not(:disabled) { background: var(--blue-hover); }
+.register-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.registered-badge {
+  padding: 8px 20px;
+  background: var(--green-dim);
+  border: 1px solid rgba(76,175,118,0.3);
+  border-radius: var(--radius-md);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Contest body layout */
+.contest-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+.contest-sidebar {
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contest-sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.contest-sidebar-tab {
+  flex: 1;
+  padding: 10px 4px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+
+.contest-sidebar-tab:hover { color: var(--text-primary); }
+
+.contest-sidebar-tab.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.contest-problems-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.contest-problem-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: left;
+}
+
+.contest-problem-item:hover { background: var(--bg-hover); }
+
+.contest-problem-item.active {
+  background: var(--blue-dim);
+  border-left: 3px solid var(--blue);
+}
+
+.cp-label {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.contest-problem-item.active .cp-label {
+  background: var(--blue);
+  color: #fff;
+}
+
+.cp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cp-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cp-points {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Scoreboard */
+.contest-scoreboard,
+.contest-my-subs {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.scoreboard-table th {
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+}
+
+.scoreboard-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.scoreboard-table tr:hover td { background: var(--bg-hover); }
+.scoreboard-me td { background: var(--blue-dim) !important; }
+
+/* Contest Editor */
+.contest-editor {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contest-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.contest-editor-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.contest-register-prompt {
+  padding: 10px 14px;
+  background: var(--orange-dim);
+  border-bottom: 1px solid rgba(240,165,0,0.2);
+  font-size: 13px;
+  color: var(--orange);
+  text-align: center;
+}
+
+.contest-ended-banner {
+  padding: 10px 14px;
+  background: var(--red-dim);
+  border-bottom: 1px solid rgba(244,71,71,0.2);
+  font-size: 13px;
+  color: var(--red);
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contest-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .contest-sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 280px;
+  }
+
+  .contest-detail-header {
+    flex-direction: column;
+  }
+
+  .contest-detail-header-right {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

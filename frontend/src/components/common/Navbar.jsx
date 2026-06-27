@@ -28,6 +28,11 @@ const Navbar = () => {
 
       <div className="navbar-links">
         <Link to="/problems" className={isActive("/problems")}>Problems</Link>
+        
+          <Link to="/contests" className={isActive("/contests")}>
+    Contests
+  </Link>
+
         <Link to="/leaderboard" className={isActive("/leaderboard")}>Leaderboard</Link>
         {user && (
           <>
