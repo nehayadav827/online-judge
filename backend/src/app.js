@@ -5,6 +5,7 @@ import helmet from "helmet";
 import authRoutes from "./routes/authRoutes.js";
 import compilerRoutes from "../compiler/compilerRoutes.js";
 import problemRoutes from "./routes/problemRoutes.js";
+import submissionRoutes from "./routes/submissionRoutes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/compiler", compilerRoutes);
 app.use("/api/problems", problemRoutes); 
+app.use("/api/submissions", submissionRoutes);
 
 app.get("/", (req, res) => {
   res.json({

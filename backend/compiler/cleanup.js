@@ -1,9 +1,9 @@
 import fs from "fs";
+import path from "path";
+import os from "os";
 
-/**
- * Deletes a file or directory (recursively) if it exists.
- * Used to clean up code/input/output files after execution.
- */
+export const outputPath = path.join(os.tmpdir(), "oj_outputs");
+
 export const cleanupFile = (filePath) => {
   try {
     if (fs.existsSync(filePath)) {
@@ -14,17 +14,12 @@ export const cleanupFile = (filePath) => {
   }
 };
 
-/**
- * Cleans up the compiled binary/class file for cpp and java.
- */
-export const cleanupOutput = (language, jobId, jobDir, outputPath) => {
+export const cleanupOutput = (language, jobId, jobDir) => {
   try {
     if (language === "cpp") {
-      const binaryPath = `${outputPath}/${jobId}`;
-      cleanupFile(binaryPath);
+      cleanupFile(path.join(outputPath, jobId));
     } else if (language === "java") {
-      const classPath = `${jobDir}/Main.class`;
-      cleanupFile(classPath);
+      cleanupFile(path.join(jobDir, "Main.class"));
     }
   } catch (err) {
     console.error("Output cleanup failed:", err.message);
