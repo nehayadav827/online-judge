@@ -7,6 +7,7 @@ import compilerRoutes from "../compiler/compilerRoutes.js";
 import problemRoutes from "./routes/problemRoutes.js";
 import submissionRoutes from "./routes/submissionRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/compiler", compilerRoutes);
 app.use("/api/problems", problemRoutes); 
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.get("/", (req, res) => {
   res.json({
