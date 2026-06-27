@@ -3,7 +3,7 @@ import groq from "../config/groq.js";
 // Single reusable function to call Groq
 const askGroq = async (systemPrompt, userPrompt) => {
   const response = await groq.chat.completions.create({
-    model: "llama3-70b-8192", // best free model on Groq
+    model: "llama-3.3-70b-versatile", // best free model on Groq
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },

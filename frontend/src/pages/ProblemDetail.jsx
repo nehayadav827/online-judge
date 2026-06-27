@@ -11,6 +11,7 @@ import OutputPanel from "../components/compiler/OutputPanel";
 import VerdictCard from "../components/compiler/VerdictCard";
 import SubmissionHistory from "../components/submissions/SubmissionHistory";
 import { DEFAULT_CODE } from "../constants/languages";
+import AiPanel from "../components/ai/AiPanel";
 
 const TABS = ["Description", "Submissions"];
 
@@ -196,6 +197,29 @@ const ProblemDetail = () => {
             </Link>
           </div>
         )}
+
+
+{/* ── AI Panel — only shown when logged in ── */}
+{user && (
+  <AiPanel
+    code={code}
+    language={language}
+    problem={problem}
+    submitResult={submitResult}
+    input={input}
+  />
+)}
+
+{!user && (
+  <div className="ai-login-prompt">
+    <span>🤖</span>
+    <Link to="/login">Login to use AI features</Link>
+  </div>
+)}
+
+
+
+
       </div>
     </div>
   );
