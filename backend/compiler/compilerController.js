@@ -17,13 +17,7 @@ const SUPPORTED_LANGUAGES = ["cpp", "java", "python", "javascript"];
  */
 export const runCode = async (req, res) => {
 
-  //logs to check for error
- console.log("--- /run hit ---");
-  console.log("body:", req.body);
-
-
-
-
+  
   const { language, code, input } = req.body;
 
   // ── Validation ──
@@ -45,28 +39,19 @@ export const runCode = async (req, res) => {
 
   try {
 
-    //console log
-     console.log("Step 1: generating file...");
-
+    
 
     // ── Generate files ──
     ({ filePath, jobId, jobDir } = await generateFile(language, code));
 
-     //console log
-     console.log("Step 2: file generated:", filePath);
+    
 
     inputFilePath = await generateInputFile(input);
-
-    //rem
-   console.log("Step 3: input file generated:", inputFilePath);
 
 
     // ── Execute ──
     const result = await executeCode(language, filePath, inputFilePath, jobId, jobDir);
-  //rem
-    console.log("Step 4: execution result:", result);
-
-
+  
     if (!result.success) {
       // Map internal error types to verdict-style responses
       const verdictMap = {
@@ -108,8 +93,7 @@ export const runCode = async (req, res) => {
     if (inputFilePath) {
       cleanupFile(inputFilePath);
 
-      //rem
-      console.log("Step 6: cleanup done");
+      
     }
   }
 };
