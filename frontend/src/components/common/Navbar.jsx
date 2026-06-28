@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand">CodeArena</Link>
+      <Link to="/" className="navbar-brand">Solvora</Link>
 
       <div className="navbar-links">
         <Link to="/problems" className={isActive("/problems")}>Problems</Link>
