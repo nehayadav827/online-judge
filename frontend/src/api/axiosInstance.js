@@ -35,14 +35,11 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshResponse =
-          await axios.post(
-            "http://localhost:5000/api/auth/refresh",
-            {},
-            {
-              withCredentials: true,
-            }
-          );
+       const refreshResponse = await axios.post(
+  `${import.meta.env.VITE_API_URL}/auth/refresh`,
+  {},
+  { withCredentials: true }
+);
 
         const newAccessToken =
           refreshResponse.data.accessToken;
