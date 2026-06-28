@@ -19,7 +19,12 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'"], // needed for Vite in dev
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "blob:"],
-      connectSrc: ["'self'", "http://localhost:5173"],
+      connectSrc: [
+  "'self'",
+  "http://localhost:5173",
+  "https://solvora-cp.vercel.app",
+  "http://16.16.26.216",
+],
       fontSrc: ["'self'"],
       objectSrc: ["'none'"],
       frameSrc: ["'none'"],
@@ -33,7 +38,10 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://solvora-cp.vercel.app", // your vercel URL
+    ],
     credentials: true,
   })
 );
