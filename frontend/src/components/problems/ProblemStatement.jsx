@@ -1,4 +1,5 @@
 import { DIFFICULTY_COLORS } from "../../constants/difficulty";
+import DOMPurify from "dompurify";
 
 const ProblemStatement = ({ problem }) => {
   return (
@@ -23,7 +24,7 @@ const ProblemStatement = ({ problem }) => {
 
       <div className="problem-section">
         {/* statement may contain line breaks — preserve them */}
-        <p className="statement-text">{problem.statement}</p>
+        <SafeText text={problem.statement} />
       </div>
 
       {problem.constraints && (
@@ -63,6 +64,13 @@ const ProblemStatement = ({ problem }) => {
       </div>
     </div>
   );
+};
+
+// For the statement text, sanitize before rendering
+const SafeText = ({ text }) => {
+  // Strip any HTML tags — problem statements are plain text
+  const clean = DOMPurify.sanitize(text, { ALLOWED_TAGS: [] });
+  return <p className="statement-text">{clean}</p>;
 };
 
 export default ProblemStatement;
