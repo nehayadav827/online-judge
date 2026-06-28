@@ -1,4 +1,6 @@
 import express from "express";
+import rateLimit from "express-rate-limit";
+
 import {
   createContest,
   getAllContests,
@@ -29,6 +31,19 @@ const optionalAuth = (req, res, next) => {
   next();
 };
 
+const contestSubmissionLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 20,
+  keyGenerator: (req) => req.user?.id ?? "anonymous",
+  skip: (req) => !req.user,
+  message: {
+    success: false,
+    message: "Too many submissions. Please wait.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Public
 router.get("/", getAllContests);
 router.get("/:slug", optionalAuth, getContestBySlug);
@@ -39,7 +54,7 @@ router.post("/", protect, restrictTo("admin", "problemsetter"), createContest);
 router.put("/:slug", protect, restrictTo("admin", "problemsetter"), updateContest);
 router.delete("/:slug", protect, restrictTo("admin"), deleteContest);
 router.post("/:slug/register", protect, registerForContest);
-router.post("/:slug/submit", protect, contestSubmit);
+router.post("/:slug/submit", protect, contestSubmissionLimiter, contestSubmit);
 router.get("/:slug/my-submissions", protect, getMyContestSubmissions);
 
 export default router;
