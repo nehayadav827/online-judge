@@ -162,14 +162,10 @@ const executeDocker = async (language, codeFilePath, inputFilePath, jobId, jobDi
   const image    = DOCKER_IMAGES[language];
   const filename = path.basename(codeFilePath);
 
-  // Build the full command to run inside ONE container
   let innerCmd;
-
   if (language === "cpp") {
-    // Compile then run in same shell session — output binary stays in /sandbox
     innerCmd = `g++ /sandbox/${filename} -o /sandbox/output && timeout ${Math.floor(TIME_LIMIT_MS / 1000)} /sandbox/output < /sandbox/input.txt`;
   } else if (language === "java") {
-    // Compile then run in same session
     innerCmd = `javac /sandbox/${filename} && timeout ${Math.floor(TIME_LIMIT_MS / 1000)} java -cp /sandbox Main < /sandbox/input.txt`;
   } else if (language === "python") {
     innerCmd = `timeout ${Math.floor(TIME_LIMIT_MS / 1000)} python3 /sandbox/${filename} < /sandbox/input.txt`;
@@ -194,44 +190,53 @@ const executeDocker = async (language, codeFilePath, inputFilePath, jobId, jobDi
 
   console.log("[DOCKER] Running:", dockerCmd);
 
-  return new Promise((resolve, reject) => {
-    const hardKillTimer = setTimeout(() => {
-      reject({ type: "timeout", message: "Time Limit Exceeded" });
-    }, TIME_LIMIT_MS + 3000);
+  try {
+    const result = await new Promise((resolve, reject) => {
+      const hardKillTimer = setTimeout(() => {
+        reject({ type: "timeout", message: "Time Limit Exceeded" });
+      }, TIME_LIMIT_MS + 3000);
 
-    exec(
-      dockerCmd,
-      { timeout: TIME_LIMIT_MS + 3000, maxBuffer: 1024 * 1024 },
-      (error, stdout, stderr) => {
-        clearTimeout(hardKillTimer);
+      exec(
+        dockerCmd,
+        { timeout: TIME_LIMIT_MS + 3000, maxBuffer: 1024 * 1024 },
+        (error, stdout, stderr) => {
+          clearTimeout(hardKillTimer);
 
-        console.log("[DOCKER] stdout:", stdout);
-        console.log("[DOCKER] stderr:", stderr);
+          console.log("[DOCKER] stdout:", stdout);
+          console.log("[DOCKER] stderr:", stderr);
 
-        if (error) {
-          if (error.code === 124) {
-            return reject({ type: "timeout", message: "Time Limit Exceeded" });
+          if (error) {
+            if (error.code === 124) {
+              return reject({ type: "timeout", message: "Time Limit Exceeded" });
+            }
+            if (error.killed || error.signal === "SIGTERM") {
+              return reject({ type: "timeout", message: "Time Limit Exceeded" });
+            }
+
+            const isCompileError =
+              stderr?.includes("error:") ||
+              stderr?.includes("SyntaxError");
+
+            return reject({
+              type: isCompileError ? "compile_error" : "runtime_error",
+              message: stderr || error.message,
+            });
           }
-          if (error.killed || error.signal === "SIGTERM") {
-            return reject({ type: "timeout", message: "Time Limit Exceeded" });
-          }
 
-          // Separate compile errors from runtime errors
-          const isCompileError =
-            stderr?.includes("error:") ||        // g++ errors
-            stderr?.includes("error:") ||        // javac errors
-            stderr?.includes("SyntaxError");     // python syntax
-
-          return reject({
-            type: isCompileError ? "compile_error" : "runtime_error",
-            message: stderr || error.message,
-          });
+          resolve(stdout); // just the output string
         }
+      );
+    });
 
-        resolve({ stdout, stderr });
-      }
-    );
-  });
+    return { success: true, output: result };
+
+  } catch (err) {
+    return {
+      success: false,
+      error: err.message,
+      errorType: err.type || "runtime_error",
+    };
+  }
 };
 
 // ─────────────────────────────────────────────

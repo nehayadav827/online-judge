@@ -67,23 +67,25 @@ const [ioTab, setIoTab] = useState("input");
   setRunning(true);
   setRunResult(null);
   setSubmitResult(null);
-
-  // Automatically switch to the Output tab
   setIoTab("output");
-
   try {
-    const res = await runCode({
-      language,
-      code,
-      input,
-    });
-
+    const res = await runCode({ language, code, input });
+    console.log("Run result:", res.data);
     setRunResult(res.data);
   } catch (err) {
+    // Log everything
+    console.log("Full error:", err);
+    console.log("Status:", err.response?.status);
+    console.log("Data:", err.response?.data);
+    console.log("Message:", err.message);
+
     setRunResult({
       success: false,
       verdict: "Error",
-      error: err.response?.data?.message || "Something went wrong",
+      error: err.response?.data?.message
+        || err.response?.data?.error
+        || err.message
+        || "Something went wrong",
     });
   } finally {
     setRunning(false);

@@ -16,44 +16,33 @@ const SUPPORTED_LANGUAGES = ["cpp", "java", "python", "javascript"];
  * @access  Private (or Public — your choice)
  */
 export const runCode = async (req, res) => {
+  console.log("--- /run hit ---");
+  console.log("body:", req.body);
 
-  
   const { language, code, input } = req.body;
 
-  // ── Validation ──
   if (!code || code.trim() === "") {
-    return res.status(400).json({
-      success: false,
-      message: "Code cannot be empty",
-    });
+    return res.status(400).json({ success: false, message: "Code cannot be empty" });
   }
 
   if (!language || !SUPPORTED_LANGUAGES.includes(language)) {
-    return res.status(400).json({
-      success: false,
-      message: `Unsupported language. Supported: ${SUPPORTED_LANGUAGES.join(", ")}`,
-    });
+    return res.status(400).json({ success: false, message: "Unsupported language" });
   }
 
   let filePath, jobId, jobDir, inputFilePath;
 
   try {
-
-    
-
-    // ── Generate files ──
+    console.log("Step 1: generating file...");
     ({ filePath, jobId, jobDir } = await generateFile(language, code));
-
-    
+    console.log("Step 2: file generated:", filePath);
 
     inputFilePath = await generateInputFile(input);
+    console.log("Step 3: input file generated:", inputFilePath);
 
-
-    // ── Execute ──
     const result = await executeCode(language, filePath, inputFilePath, jobId, jobDir);
-  
+    console.log("Step 4: result:", result);
+
     if (!result.success) {
-      // Map internal error types to verdict-style responses
       const verdictMap = {
         compile_error: "Compile Error",
         timeout: "Time Limit Exceeded",
@@ -75,25 +64,20 @@ export const runCode = async (req, res) => {
     });
 
   } catch (error) {
+    console.log("CAUGHT ERROR:", error); // THIS IS THE KEY LOG
     return res.status(500).json({
       success: false,
-      message: "Execution failed",
+      verdict: "Error",
       error: error.message,
     });
 
   } finally {
-    // ── Cleanup — always runs, even if there was an error ──
     if (language === "java" && jobDir) {
-      cleanupFile(jobDir); // deletes the whole job folder (Main.java + Main.class)
+      cleanupFile(jobDir);
     } else if (filePath) {
       cleanupFile(filePath);
-      cleanupOutput(language, jobId, jobDir, outputPath);
+      cleanupOutput(language, jobId, jobDir);
     }
-
-    if (inputFilePath) {
-      cleanupFile(inputFilePath);
-
-      
-    }
+    if (inputFilePath) cleanupFile(inputFilePath);
   }
 };
