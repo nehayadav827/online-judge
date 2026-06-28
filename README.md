@@ -621,11 +621,9 @@ MIT License — see [LICENSE](LICENSE) for details.
  
 | | |
 |---|---|
-| LinkedIn | [Your LinkedIn](https://linkedin.com/in/YOUR_PROFILE) |
-| GitHub | [Your GitHub](https://github.com/YOUR_USERNAME) |
-| Portfolio | [Your Portfolio](https://your-portfolio.com) |
-| Email | your@email.com |
- 
+| LinkedIn | [My LinkedIn](https://www.linkedin.com/in/neha-yadav-959302314/) |
+| GitHub | [My GitHub](https://github.com/nehayadav827) |
+
 ---
  
 *Built during Co-op Internship at AlgoUniversity (Y Combinator backed)*
